@@ -14,8 +14,14 @@ internal class Program
 	// 画像の数
 	private static readonly int TILE_COUNT = SCREEN_X / TILE_SIZE;
 
+	// タイマーの周期
+	private static readonly int TIMER_INTERVAL = 16;
+
 	// 画像
 	private static int[] _grounds = new int[5];
+
+	// 画面更新の計測用タイマー
+	private static int _timer;
 
 	private static void Init() {
 		// ウィンドウモードで起動するように設定
@@ -24,6 +30,9 @@ internal class Program
 		DX.DxLib_Init();
 		// 描画先を裏画面に設定
 		DX.SetDrawScreen(DX.DX_SCREEN_BACK);
+
+		// タイマーの初期化
+		_timer = DX.GetNowCount();
 	}
 
 	private static void Loop() {
@@ -39,6 +48,10 @@ internal class Program
 			Draw(diff);
 			// 裏画面の内容を表画面に反映
 			DX.ScreenFlip();
+
+			// 周期 16ms で待機
+			_timer += TIMER_INTERVAL;
+			DX.WaitTimer(Math.Max(0, _timer - DX.GetNowCount()));
 		}
 	}
 
