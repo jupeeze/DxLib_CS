@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DxDLL.cs" />
+    <Compile Include="Ground.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
