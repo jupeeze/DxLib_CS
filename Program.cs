@@ -12,13 +12,16 @@ internal class Program
 	private static readonly int TILE_SIZE = 32;
 
 	// 画像の数
-	private static readonly int TILE_COUNT = SCREEN_X / TILE_SIZE;
+	private static readonly int TILE_COUNT = SCREEN_X / TILE_SIZE + 1;
 
 	// タイマーの周期
 	private static readonly int TIMER_INTERVAL = 16;
 
 	// 画像
 	private static int[] _grounds = new int[5];
+
+	// 画像の移動
+	private static int _diff = 0;
 
 	// 画面更新の計測用タイマー
 	private static int _timer;
@@ -35,17 +38,18 @@ internal class Program
 		_timer = DX.GetNowCount();
 	}
 
-	private static void Loop() {
-		int diff = 0;
+	private static void Load() {
+		// PNG画像のメモリへの読みこみ
+		DX.LoadDivGraph(@"Sprite/Grounds.png", 5, 5, 1, 16, 16, _grounds);
+	}
 
+	private static void Loop() {
 		// メインループ
 		while (DX.ProcessMessage() == 0) {
 			// 画面をクリア
 			DX.ClearDrawScreen();
-			// 差分を計算
-			diff += 2;
 			// 画像を描画
-			Draw(diff);
+			Draw();
 			// 裏画面の内容を表画面に反映
 			DX.ScreenFlip();
 
@@ -55,15 +59,16 @@ internal class Program
 		}
 	}
 
-	private static void Load() {
-		// PNG画像のメモリへの読みこみ
-		DX.LoadDivGraph(@"Sprite/Grounds.png", 5, 5, 1, 16, 16, _grounds);
-	}
+	private static void Draw() {
+		// 差分を計算
+		_diff += 2;
+		if (_diff >= TILE_SIZE) {
+			_diff = 0;
+		}
 
-	private static void Draw(int diff) {
 		int x = 0, y = 100;
 		for (int i = 0; i < TILE_COUNT; i++) {
-			DrawEXGraph(x + i * TILE_SIZE - diff, y, _grounds[0]);
+			DrawEXGraph(x + i * TILE_SIZE - _diff, y, _grounds[0]);
 		}
 	}
 
