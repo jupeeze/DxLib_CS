@@ -27,14 +27,16 @@ internal class Program
 	}
 
 	private static void Loop() {
+		int diff = 0;
+
 		// メインループ
 		while (DX.ProcessMessage() == 0) {
 			// 画面をクリア
 			DX.ClearDrawScreen();
+			// 差分を計算
+			diff += 2;
 			// 画像を描画
-			Draw();
-			// 文字を描画
-			DX.DrawString(100, 100, "Hello World", DX.GetColor(255, 255, 255));
+			Draw(diff);
 			// 裏画面の内容を表画面に反映
 			DX.ScreenFlip();
 		}
@@ -45,10 +47,10 @@ internal class Program
 		DX.LoadDivGraph(@"Sprite/Grounds.png", 5, 5, 1, 16, 16, _grounds);
 	}
 
-	private static void Draw() {
+	private static void Draw(int diff) {
 		int x = 0, y = 100;
 		for (int i = 0; i < TILE_COUNT; i++) {
-			DrawEXGraph(x + i * TILE_SIZE, y, _grounds[0]);
+			DrawEXGraph(x + i * TILE_SIZE - diff, y, _grounds[0]);
 		}
 	}
 
