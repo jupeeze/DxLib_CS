@@ -5,8 +5,14 @@ using DxLibDLL;
 
 internal class Program
 {
+	// 画面サイズ
+	private static readonly int SCREEN_X = 640, SCREEN_Y = 480;
+
 	// 画像のサイズ
 	private static readonly int TILE_SIZE = 32;
+
+	// 画像の数
+	private static readonly int TILE_COUNT = SCREEN_X / TILE_SIZE;
 
 	// 画像
 	private static int[] _grounds = new int[5];
@@ -40,8 +46,10 @@ internal class Program
 	}
 
 	private static void Draw() {
-		int x = 100, y = 100;
-		DrawEXGraph(x, y, _grounds[0]);
+		int x = 0, y = 100;
+		for (int i = 0; i < TILE_COUNT; i++) {
+			DrawEXGraph(x + i * TILE_SIZE, y, _grounds[0]);
+		}
 	}
 
 	private static void DrawEXGraph(int x, int y, int GrHandle) {
