@@ -5,6 +5,9 @@ using DxLibDLL;
 
 internal class Program
 {
+	// 画像
+	private static int[] _grounds = new int[5];
+
 	private static void Init() {
 		// ウィンドウモードで起動するように設定
 		DX.ChangeWindowMode(DX.TRUE);
@@ -19,6 +22,8 @@ internal class Program
 		while (DX.ProcessMessage() == 0) {
 			// 画面をクリア
 			DX.ClearDrawScreen();
+			// 画像を描画
+			Draw();
 			// 文字を描画
 			DX.DrawString(100, 100, "Hello World", DX.GetColor(255, 255, 255));
 			// 裏画面の内容を表画面に反映
@@ -26,9 +31,21 @@ internal class Program
 		}
 	}
 
+	private static void Load() {
+		// PNG画像のメモリへの読みこみ
+		DX.LoadDivGraph(@"Sprite/Grounds.png", 5, 5, 1, 16, 16, _grounds);
+	}
+
+	private static void Draw() {
+		int x = 100, y = 100;
+		DX.DrawExtendGraph(x, y, x + 16, y + 16, _grounds[0], DX.TRUE);
+	}
+
 	private static void Main(string[] args) {
 		// 初期化処理
 		Init();
+		// 画像の読み込み
+		Load();
 		// メインループ
 		Loop();
 
