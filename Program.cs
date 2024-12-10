@@ -5,15 +5,16 @@ using DxLibDLL;
 
 internal class Program
 {
-	private static void Main(string[] args) {
+	private static void Init() {
 		// ウィンドウモードで起動するように設定
 		DX.ChangeWindowMode(DX.TRUE);
-
 		// Dxlib の初期化
 		DX.DxLib_Init();
 		// 描画先を裏画面に設定
 		DX.SetDrawScreen(DX.DX_SCREEN_BACK);
+	}
 
+	private static void Loop() {
 		// メインループ
 		while (DX.ProcessMessage() == 0) {
 			// 画面をクリア
@@ -23,6 +24,13 @@ internal class Program
 			// 裏画面の内容を表画面に反映
 			DX.ScreenFlip();
 		}
+	}
+
+	private static void Main(string[] args) {
+		// 初期化処理
+		Init();
+		// メインループ
+		Loop();
 
 		// Dxlib の終了処理
 		DX.DxLib_End();
