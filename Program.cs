@@ -5,6 +5,9 @@ using DxLibDLL;
 
 internal class Program
 {
+	// 画像のサイズ
+	private static readonly int TILE_SIZE = 32;
+
 	// 画像
 	private static int[] _grounds = new int[5];
 
@@ -38,7 +41,11 @@ internal class Program
 
 	private static void Draw() {
 		int x = 100, y = 100;
-		DX.DrawExtendGraph(x, y, x + 16, y + 16, _grounds[0], DX.TRUE);
+		DrawEXGraph(x, y, _grounds[0]);
+	}
+
+	private static void DrawEXGraph(int x, int y, int GrHandle) {
+		DX.DrawExtendGraph(x, y, x + TILE_SIZE, y + TILE_SIZE, GrHandle, DX.TRUE);
 	}
 
 	private static void Main(string[] args) {
