@@ -23,14 +23,14 @@ internal class Ground
 	}
 
 	public void Draw() {
-		int x = 0, y = 300;
+		int y = 300;
 
 		// 差分を計算
 		_diff -= 2;
 		if (_diff <= -TILE_SIZE) _diff = 0;
 
 		for (int i = 0; i < TILE_COUNT; i++) {
-			DX.DrawGraph(x + i * TILE_SIZE + _diff, y, _groundImage, DX.TRUE);
+			DX.DrawGraph(i * TILE_SIZE + _diff, y, _groundImage, DX.TRUE);
 		}
 	}
 }
