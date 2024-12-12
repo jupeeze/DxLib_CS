@@ -1,10 +1,9 @@
 ﻿using DxLibDLL;
-using System.Runtime.InteropServices;
 
 internal class Ground
 {
 	// 画面サイズ
-	private const int SCREEN_X = 640, SCREEN_Y = 480;
+	private const int SCREEN_X = 640;
 
 	// 画像のサイズ
 	private const int TILE_SIZE = 32;
@@ -12,20 +11,17 @@ internal class Ground
 	// 画像の数
 	private const int TILE_COUNT = SCREEN_X / TILE_SIZE + 1;
 
+	// 画像の移動
+	private int _diff = 0;
+
 	// 画像のハンドル
 	private int _groundImage;
-
-	private int _slopeImage;
-
-	// 画像の移動
-	private int _diff;
 
 	public void Load() {
 		// PNG画像のメモリへの読みこみ
 		_groundImage = DX.LoadGraph(@"sprite/ground.png");
 	}
 
-	// 地面を描画する
 	public void Draw() {
 		int x = 0, y = 300;
 
