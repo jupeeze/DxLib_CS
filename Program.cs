@@ -1,14 +1,12 @@
-﻿#pragma warning disable CS0436
-
-using System;
+﻿using System;
 using DxLibDLL;
 
 internal class Game
 {
-	// タイマーの周期
-	private const int TIMER_INTERVAL = 16;
-
 	private Ground _ground;
+
+	// 1フレームの時間 (16ms)
+	private const int TIMER_INTERVAL = 16;
 
 	// 画面更新の計測用タイマー
 	private int _timer;
@@ -36,17 +34,17 @@ internal class Game
 		DX.DxLib_Init();
 		// 描画先を裏画面に設定
 		DX.SetDrawScreen(DX.DX_SCREEN_BACK);
-
-		// タイマーの初期化
-		_timer = DX.GetNowCount();
 	}
 
-	public void Load() {
+	private void Load() {
 		// 画像の読み込み
 		_ground.Load();
 	}
 
 	private void Loop() {
+		// 現在の時間を取得
+		_timer = DX.GetNowCount();
+
 		// メインループ
 		while (DX.ProcessMessage() == 0) {
 			// 画像を描画
