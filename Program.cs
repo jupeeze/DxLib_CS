@@ -4,6 +4,7 @@ using DxLibDLL;
 internal class Game
 {
 	private Ground _ground;
+	private Player _player;
 
 	// 1フレームの時間 (16ms)
 	private const int TIMER_INTERVAL = 16;
@@ -13,6 +14,7 @@ internal class Game
 
 	public Game() {
 		_ground = new Ground();
+		_player = new Player();
 	}
 
 	public void Run() {
@@ -39,6 +41,7 @@ internal class Game
 	private void Load() {
 		// 画像の読み込み
 		_ground.Load();
+		_player.Load();
 	}
 
 	private void Loop() {
@@ -47,6 +50,8 @@ internal class Game
 
 		// メインループ
 		while (DX.ProcessMessage() == 0) {
+			// 更新処理
+			Update();
 			// 画像を描画
 			Draw();
 
@@ -56,12 +61,19 @@ internal class Game
 		}
 	}
 
+	private void Update() {
+		// プレイヤーの更新
+		_player.Update();
+	}
+
 	private void Draw() {
 		// 画面をクリア
 		DX.ClearDrawScreen();
 
 		// 地面を描画
 		_ground.Draw();
+		// プレイヤーを描画
+		_player.Draw();
 
 		// 裏画面の内容を表画面に反映
 		DX.ScreenFlip();
