@@ -7,6 +7,12 @@ internal class Game
 	private Player _player;
 	private Background _background;
 
+	public static int Diff = 0;
+
+	public static readonly int GROUND_POS = 400;
+
+	public static readonly int GROUND_SIZE = 32;
+
 	// 画面サイズ
 	public static readonly int SCREEN_X = 640, SCREEN_Y = 480;
 
@@ -68,6 +74,12 @@ internal class Game
 	}
 
 	private void Update() {
+		// 差分を計算
+		Diff -= 5;
+		if (Diff <= -GROUND_SIZE) {
+			Diff %= -GROUND_SIZE;
+		}
+
 		_background.Update();
 
 		_player.Update();
