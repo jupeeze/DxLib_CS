@@ -40,7 +40,7 @@ internal class Background
 	}
 
 	private void DrawLayer(int posX, int imageIndex) {
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 2 + (Game.SCREEN_X / SIZE_X); i++) {
 			DX.DrawGraph(posX + (i * SIZE_X), Game.SCREEN_Y - SIZE_Y, _imagesCloud[imageIndex], DX.TRUE);
 		}
 	}
