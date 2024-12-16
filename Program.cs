@@ -78,6 +78,8 @@ internal class Game
 		Diff -= 5;
 		if (Diff <= -GROUND_SIZE) {
 			Diff %= -GROUND_SIZE;
+
+			_player.Animation();
 		}
 
 		_background.Update();

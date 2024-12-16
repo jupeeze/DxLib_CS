@@ -2,6 +2,9 @@
 
 internal class Player
 {
+	// 画像のサイズ
+	private const int SIZE_X = 50, SIZE_Y = 37;
+
 	private const int JUMP_FORCE = -20;
 
 	private const int GRAVITY_INCREMENT = 1;
@@ -12,11 +15,18 @@ internal class Player
 	// 重力
 	private int _gravity = 0;
 
+	// 画像の差し替え
+	private int _imageNum = 0;
+
 	// 画像のハンドル
-	private int _playerImage;
+	private int[] _playerImages;
 
 	public void Load() {
-		_playerImage = DX.LoadGraph(@"sprite/ground.png");
+		int divX = 7, divY = 16;
+		int spriteCount = divX * divY;
+		_playerImages = new int[spriteCount];
+
+		DX.LoadDivGraph("sprite/player-Sheet.png", spriteCount, divX, divY, SIZE_X, SIZE_Y, _playerImages);
 	}
 
 	#region Update
@@ -49,8 +59,30 @@ internal class Player
 
 	#endregion Update
 
+	#region Draw
+
 	public void Draw() {
-		DX.DrawGraph(Game.GROUND_SIZE, _posY - Game.GROUND_SIZE, _playerImage, DX.TRUE);
+		int x = 3 * SIZE_X, y = _posY;
+		DX.DrawExtendGraph(x - (2 * SIZE_X), y - (2 * SIZE_Y), x, y, GetCurrentImage(), DX.TRUE);
+	}
+
+	private int GetCurrentImage() {
+		if (IsGround())
+			return _playerImages[8 + _imageNum];
+
+		return (_gravity <= 0) ? _playerImages[14 + _imageNum] : _playerImages[18 + _imageNum];
+	}
+
+	#endregion Draw
+
+	public void Animation() {
+		_imageNum++;
+		if (IsGround()) {
+			_imageNum %= 6; // 地上アニメーション
+		}
+		else {
+			_imageNum %= 4; // 空中アニメーション
+		}
 	}
 
 	private bool IsGround() {
