@@ -2,6 +2,10 @@
 
 internal class Player
 {
+	private const int JUMP_FORCE = -20;
+
+	private const int GRAVITY_INCREMENT = 1;
+
 	// 画像の位置
 	private int _posY = Game.GROUND_POS;
 
@@ -12,32 +16,41 @@ internal class Player
 	private int _playerImage;
 
 	public void Load() {
-		// PNG画像のメモリへの読みこみ
 		_playerImage = DX.LoadGraph(@"sprite/ground.png");
 	}
 
-	public void Draw() {
-		DX.DrawGraph(Game.GROUND_SIZE, _posY - Game.GROUND_SIZE, _playerImage, DX.TRUE);
-	}
+	#region Update
 
 	public void Update() {
-		// 重力を加える
+		ApplyGravity();
+		HandleInput();
+		UpdatePosition();
+	}
+
+	private void ApplyGravity() {
 		if (!IsGround()) {
-			_gravity += 1;
+			_gravity += GRAVITY_INCREMENT;
 		}
 		else {
 			_posY = Game.GROUND_POS;
 			_gravity = 0;
 		}
+	}
 
-		// マウスの左クリックの入力を得る
+	private void HandleInput() {
 		if (DX.GetMouseInput() == DX.MOUSE_INPUT_LEFT && IsGround()) {
-			// ジャンプ
-			_gravity = -20;
+			_gravity = JUMP_FORCE;
 		}
+	}
 
-		// 画像の位置を更新
+	private void UpdatePosition() {
 		_posY += _gravity;
+	}
+
+	#endregion Update
+
+	public void Draw() {
+		DX.DrawGraph(Game.GROUND_SIZE, _posY - Game.GROUND_SIZE, _playerImage, DX.TRUE);
 	}
 
 	private bool IsGround() {
