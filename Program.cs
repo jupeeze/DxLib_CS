@@ -5,6 +5,10 @@ internal class Game
 {
 	private Ground _ground;
 	private Player _player;
+	private Background _background;
+
+	// 画面サイズ
+	public static readonly int SCREEN_X = 640, SCREEN_Y = 480;
 
 	// 1フレームの時間 (16ms)
 	private const int TIMER_INTERVAL = 16;
@@ -15,6 +19,7 @@ internal class Game
 	public Game() {
 		_ground = new Ground();
 		_player = new Player();
+		_background = new Background();
 	}
 
 	public void Run() {
@@ -39,7 +44,8 @@ internal class Game
 	}
 
 	private void Load() {
-		// 画像の読み込み
+		_background.Load();
+
 		_ground.Load();
 		_player.Load();
 	}
@@ -62,7 +68,8 @@ internal class Game
 	}
 
 	private void Update() {
-		// プレイヤーの更新
+		_background.Update();
+
 		_player.Update();
 	}
 
@@ -70,9 +77,9 @@ internal class Game
 		// 画面をクリア
 		DX.ClearDrawScreen();
 
-		// 地面を描画
+		_background.Draw();
+
 		_ground.Draw();
-		// プレイヤーを描画
 		_player.Draw();
 
 		// 裏画面の内容を表画面に反映
