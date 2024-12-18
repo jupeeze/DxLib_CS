@@ -43,7 +43,10 @@ internal static class Enemy
 	public static void Draw() {
 		int imageIndex = _isAttacking ? 1 : 0;
 
-		DX.DrawExtendGraph(Game.SCREEN_X - SIZE_X, Game.GROUND_POS - (2 * SIZE_Y), Game.SCREEN_X - (3 * SIZE_X), Game.GROUND_POS, _enemyImages[imageIndex][_imageNum], DX.TRUE);
+		int posX = Game.SCREEN_X - SIZE_X;
+		int posY = Game.GROUND_POS - (2 * SIZE_Y);
+
+		DX.DrawExtendGraph(posX, posY, posX - (2 * SIZE_X), posY + (2 * SIZE_Y), _enemyImages[imageIndex][_imageNum], DX.TRUE);
 
 		foreach (var summon in _summons)
 			if (summon.IsActive)
