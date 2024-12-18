@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Background.cs" />
     <Compile Include="DxDLL.cs" />
+    <Compile Include="Enemy.cs" />
     <Compile Include="Ground.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />

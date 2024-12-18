@@ -44,6 +44,7 @@ internal static class Game
 
 		Ground.Load();
 		Player.Load();
+		Enemy.Load();
 	}
 
 	private static void Loop() {
@@ -69,12 +70,17 @@ internal static class Game
 		if (Diff <= -GROUND_SIZE) {
 			Diff %= -GROUND_SIZE;
 
-			Player.Animation();
+			Animation();
 		}
 
 		Background.Update();
 
 		Player.Update();
+	}
+
+	private static void Animation() {
+		Player.Animation();
+		Enemy.Animation();
 	}
 
 	private static void Draw() {
@@ -85,6 +91,7 @@ internal static class Game
 
 		Ground.Draw();
 		Player.Draw();
+		Enemy.Draw();
 
 		// 裏画面の内容を表画面に反映
 		DX.ScreenFlip();
