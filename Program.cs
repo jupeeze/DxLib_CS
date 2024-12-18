@@ -77,6 +77,7 @@ internal static class Game
 		Background.Update();
 
 		Player.Update();
+		Enemy.Update();
 	}
 
 	private static void Animation() {
