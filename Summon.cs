@@ -64,7 +64,7 @@ internal class Summon
 	}
 
 	public void Attack() {
-		_targetRad = Math.Atan2(-(Player._posY - Game.GROUND_POS), Game.SCREEN_X - SIZE_X);
+		_targetRad = Math.Atan2(-(Player.PosY - Game.GROUND_POS), Game.SCREEN_X - SIZE_X);
 		_state = SummonState.Moving;
 	}
 

@@ -21,6 +21,8 @@ internal static class Player
 	// 画像のハンドル
 	private static int[] _playerImages;
 
+	public static int PosY => _posY;
+
 	public static void Load() {
 		int divX = 7, divY = 16;
 		int spriteCount = divX * divY;
