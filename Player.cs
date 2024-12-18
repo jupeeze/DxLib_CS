@@ -2,26 +2,31 @@
 
 internal static class Player
 {
-	// 画像のサイズ
 	private static readonly int SIZE_X = 50, SIZE_Y = 37;
-
 	private static readonly int JUMP_FORCE = -20;
-
 	private static readonly int GRAVITY_INCREMENT = 1;
 
-	// 画像の位置
-	private static int _posY = Game.GROUND_POS;
+	private static int _posY2 = Game.GROUND_POS;
 
-	// 重力
 	private static int _gravity = 0;
 
-	// 画像の差し替え
 	private static int _imageNum = 0;
 
-	// 画像のハンドル
 	private static int[] _playerImages;
 
-	public static int PosY => _posY;
+	public static readonly int PosX1 = SIZE_X;
+	public static readonly int PosX2 = PosX1 + (2 * SIZE_Y);
+
+	public static int PosY1 => PosY2 - (2 * SIZE_Y);
+	public static int PosY2 => _posY2;
+
+	public static readonly int HitboxPosX1 = ((PosX1 + PosX2) / 2) - 10;
+	public static readonly int HitboxPosX2 = ((PosX1 + PosX2) / 2) + 10;
+	public static readonly int HitboxCenterX = (HitboxPosX1 + HitboxPosX2) / 2;
+
+	public static int HitboxPosY1 => ((PosY1 + PosY2) / 2) - 20;
+	public static int HitboxPosY2 => PosY2;
+	public static int HitboxCenterY => (HitboxPosY1 + HitboxPosY2) / 2;
 
 	public static void Load() {
 		int divX = 7, divY = 16;
@@ -44,7 +49,7 @@ internal static class Player
 			_gravity += GRAVITY_INCREMENT;
 		}
 		else {
-			_posY = Game.GROUND_POS;
+			_posY2 = Game.GROUND_POS;
 			_gravity = 0;
 		}
 	}
@@ -56,7 +61,7 @@ internal static class Player
 	}
 
 	private static void UpdatePosition() {
-		_posY += _gravity;
+		_posY2 += _gravity;
 	}
 
 	#endregion Update
@@ -64,8 +69,7 @@ internal static class Player
 	#region Draw
 
 	public static void Draw() {
-		int x = 3 * SIZE_X, y = _posY;
-		DX.DrawExtendGraph(x - (2 * SIZE_X), y - (2 * SIZE_Y), x, y, GetCurrentImage(), DX.TRUE);
+		DX.DrawExtendGraph(PosX1, PosY1, PosX2, PosY2, GetCurrentImage(), DX.TRUE);
 	}
 
 	private static int GetCurrentImage() {
@@ -89,6 +93,6 @@ internal static class Player
 
 	private static bool IsGround() {
 		// 地面についているかどうか
-		return _posY >= Game.GROUND_POS;
+		return _posY2 >= Game.GROUND_POS;
 	}
 }

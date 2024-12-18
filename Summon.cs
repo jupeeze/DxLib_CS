@@ -14,6 +14,13 @@ internal class Summon
 	private double _targetRad;
 	private List<int[]> _enemyImages = new List<int[]>();
 
+	private int HitboxPosX1 => _posX - SIZE_X - 15;
+	private int HitboxPosY1 => _posY + SIZE_Y - 15;
+	private int HitboxPosX2 => HitboxPosX1 + 30;
+	private int HitboxPosY2 => HitboxPosY1 + 40;
+	private int HitboxCenterX => (HitboxPosX1 + HitboxPosX2) / 2;
+	private int HitboxCenterY => (HitboxPosY1 + HitboxPosY2) / 2;
+
 	private enum SummonState
 	{ Appearing, Idle, Moving, Inactive }
 
@@ -45,6 +52,10 @@ internal class Summon
 	public void Draw() {
 		int imageIndex = (_state == SummonState.Appearing) ? 0 : 1;
 		DX.DrawExtendGraph(_posX, _posY, _posX - (2 * SIZE_X), _posY + (2 * SIZE_Y), _enemyImages[imageIndex][_currentFrame], DX.TRUE);
+
+		if (OnCollision(Player.HitboxPosX1, Player.HitboxPosY1, Player.HitboxPosX2, Player.HitboxPosY2)) {
+			_state = SummonState.Inactive;
+		}
 	}
 
 	public void Animation() {
@@ -64,16 +75,24 @@ internal class Summon
 	}
 
 	public void Attack() {
-		_targetRad = Math.Atan2(-(Player.PosY - Game.GROUND_POS), Game.SCREEN_X - SIZE_X);
+		_targetRad = Math.Atan2(Player.HitboxCenterY - HitboxCenterY, Player.HitboxCenterX - HitboxCenterX);
 		_state = SummonState.Moving;
 	}
 
 	public void Move() {
-		_posX -= (int)(MOVE_SPEED * Math.Cos(_targetRad));
-		_posY -= (int)(MOVE_SPEED * Math.Sin(_targetRad));
+		_posX += (int)(MOVE_SPEED * Math.Cos(_targetRad));
+		_posY += (int)(MOVE_SPEED * Math.Sin(_targetRad));
 
 		if (_posX <= -SIZE_X) {
 			_state = SummonState.Inactive;
 		}
+	}
+
+	private bool OnCollision(int x1, int y1, int x2, int y2) {
+		if ((HitboxPosX1 <= x1 && x1 <= HitboxPosX2) || (HitboxPosX1 <= x2 && x2 <= HitboxPosX2))
+			if ((HitboxPosY1 <= y1 && y1 <= HitboxPosY2) || (HitboxPosY1 <= y2 && y2 <= HitboxPosY2))
+				return true;
+
+		return false;
 	}
 }
