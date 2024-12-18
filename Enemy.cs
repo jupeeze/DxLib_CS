@@ -20,6 +20,20 @@ internal static class Enemy
 	// 今攻撃しているか
 	private static bool _isAttacking = false;
 
+	public static readonly int PosX1 = Game.SCREEN_X - SIZE_X;
+	public static readonly int PosY1 = Game.GROUND_POS - (2 * SIZE_Y);
+
+	public static readonly int PosX2 = PosX1 - (2 * SIZE_X);
+	public static readonly int PosY2 = PosY1 + (2 * SIZE_Y);
+
+	public static readonly int HitboxPosX1 = ((PosX1 + PosX2) / 2) - 10;
+	public static readonly int HitboxPosX2 = ((PosX1 + PosX2) / 2) + 30;
+	public static readonly int HitboxCenterX = (HitboxPosX1 + HitboxPosX2) / 2;
+
+	public static readonly int HitboxPosY1 = ((PosY1 + PosY2) / 2) - 40;
+	public static readonly int HitboxPosY2 = ((PosX1 + PosX2) / 2) - 20;
+	public static readonly int HitboxCenterY = (HitboxPosY1 + HitboxPosY2) / 2;
+
 	public static void Load() {
 		_enemyImages = new List<int[]>();
 
@@ -47,14 +61,14 @@ internal static class Enemy
 	public static void Draw() {
 		int imageIndex = _isAttacking ? 1 : 0;
 
-		int posX = Game.SCREEN_X - SIZE_X;
-		int posY = Game.GROUND_POS - (2 * SIZE_Y);
-
-		DX.DrawExtendGraph(posX, posY, posX - (2 * SIZE_X), posY + (2 * SIZE_Y), _enemyImages[imageIndex][_imageNum], DX.TRUE);
+		DX.DrawExtendGraph(PosX1, PosY1, PosX2, PosY2, _enemyImages[imageIndex][_imageNum], DX.TRUE);
 
 		foreach (var summon in _summons)
 			if (summon.IsActive)
 				summon.Draw();
+
+		uint Cr = DX.GetColor(0, 0, 255);
+		DX.DrawBox(HitboxPosX1, HitboxPosY1, HitboxPosX2, HitboxPosY2, Cr, DX.FALSE);
 	}
 
 	public static void Animator() {
