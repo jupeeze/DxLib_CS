@@ -5,7 +5,7 @@ using DxLibDLL;
 internal class Summon
 {
 	private const int SIZE_X = 50, SIZE_Y = 50;
-	private const int MOVE_SPEED = 30;
+	private const int MOVE_SPEED = 10;
 	private const int APPEAR_FRAMES = 6;
 	private const int ACTIVE_FRAMES = 4;
 

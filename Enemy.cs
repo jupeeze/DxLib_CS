@@ -38,6 +38,10 @@ internal static class Enemy
 
 	public static void Update() {
 		Attack();
+
+		foreach (var summon in _summons)
+			if (summon.IsMoving)
+				summon.Move();
 	}
 
 	public static void Draw() {
