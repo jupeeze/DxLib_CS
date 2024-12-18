@@ -55,6 +55,7 @@ internal class Summon
 
 		if (OnCollision(Player.HitboxPosX1, Player.HitboxPosY1, Player.HitboxPosX2, Player.HitboxPosY2)) {
 			_state = SummonState.Inactive;
+			Player.Die();
 		}
 	}
 

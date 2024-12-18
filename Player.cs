@@ -95,4 +95,8 @@ internal static class Player
 		// 地面についているかどうか
 		return _posY2 >= Game.GROUND_POS;
 	}
+
+	public static void Die() {
+		DX.DxLib_End();
+	}
 }
