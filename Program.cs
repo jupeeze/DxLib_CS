@@ -3,7 +3,9 @@ using DxLibDLL;
 
 internal static class Game
 {
-	public static int Diff = 0;
+	private static int _diff = 0;
+
+	public static int Diff => _diff;
 
 	public static readonly int GROUND_POS = 400;
 
@@ -66,9 +68,9 @@ internal static class Game
 
 	private static void Update() {
 		// 差分を計算
-		Diff -= 5;
-		if (Diff <= -GROUND_SIZE) {
-			Diff %= -GROUND_SIZE;
+		_diff -= 5;
+		if (_diff <= -GROUND_SIZE) {
+			_diff %= -GROUND_SIZE;
 
 			Animation();
 		}
