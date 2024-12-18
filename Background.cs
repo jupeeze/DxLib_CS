@@ -31,7 +31,7 @@ internal static class Background
 
 	public static void Draw() {
 		for (int i = 0; i < _imagesSky.Length; i++) {
-			DX.DrawExtendGraph(0, 0, Game.SCREEN_X, Game.SCREEN_Y, _imagesSky[i], DX.TRUE);
+			DX.DrawExtendGraph(0, 0, Game.SCREEN_X, Game.GROUND_POS, _imagesSky[i], DX.TRUE);
 		}
 
 		for (int i = 0; i < _imagesCloud.Length; i++) {
@@ -41,7 +41,7 @@ internal static class Background
 
 	private static void DrawLayer(int posX, int imageIndex) {
 		for (int i = 0; i < 2 + (Game.SCREEN_X / SIZE_X); i++) {
-			DX.DrawGraph(posX + (i * SIZE_X), Game.SCREEN_Y - SIZE_Y, _imagesCloud[imageIndex], DX.TRUE);
+			DX.DrawGraph(posX + (i * SIZE_X), Game.GROUND_POS - SIZE_Y, _imagesCloud[imageIndex], DX.TRUE);
 		}
 	}
 }

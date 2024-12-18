@@ -7,12 +7,11 @@ internal static class Game
 
 	public static int Diff => _diff;
 
-	public static readonly int GROUND_POS = 400;
+	public static readonly int SCREEN_X = 640, SCREEN_Y = 480;
 
 	public static readonly int GROUND_SIZE = 32;
 
-	// 画面サイズ
-	public static readonly int SCREEN_X = 640, SCREEN_Y = 480;
+	public static readonly int GROUND_POS = SCREEN_Y - GROUND_SIZE;
 
 	// 1フレームの時間 (16ms)
 	private static readonly int TIMER_INTERVAL = 16;
