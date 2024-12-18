@@ -1,27 +1,27 @@
 ﻿using DxLibDLL;
 
-internal class Player
+internal static class Player
 {
 	// 画像のサイズ
-	private const int SIZE_X = 50, SIZE_Y = 37;
+	private static readonly int SIZE_X = 50, SIZE_Y = 37;
 
-	private const int JUMP_FORCE = -20;
+	private static readonly int JUMP_FORCE = -20;
 
-	private const int GRAVITY_INCREMENT = 1;
+	private static readonly int GRAVITY_INCREMENT = 1;
 
 	// 画像の位置
-	private int _posY = Game.GROUND_POS;
+	private static int _posY = Game.GROUND_POS;
 
 	// 重力
-	private int _gravity = 0;
+	private static int _gravity = 0;
 
 	// 画像の差し替え
-	private int _imageNum = 0;
+	private static int _imageNum = 0;
 
 	// 画像のハンドル
-	private int[] _playerImages;
+	private static int[] _playerImages;
 
-	public void Load() {
+	public static void Load() {
 		int divX = 7, divY = 16;
 		int spriteCount = divX * divY;
 		_playerImages = new int[spriteCount];
@@ -31,13 +31,13 @@ internal class Player
 
 	#region Update
 
-	public void Update() {
+	public static void Update() {
 		ApplyGravity();
 		HandleInput();
 		UpdatePosition();
 	}
 
-	private void ApplyGravity() {
+	private static void ApplyGravity() {
 		if (!IsGround()) {
 			_gravity += GRAVITY_INCREMENT;
 		}
@@ -47,13 +47,13 @@ internal class Player
 		}
 	}
 
-	private void HandleInput() {
+	private static void HandleInput() {
 		if (DX.GetMouseInput() == DX.MOUSE_INPUT_LEFT && IsGround()) {
 			_gravity = JUMP_FORCE;
 		}
 	}
 
-	private void UpdatePosition() {
+	private static void UpdatePosition() {
 		_posY += _gravity;
 	}
 
@@ -61,12 +61,12 @@ internal class Player
 
 	#region Draw
 
-	public void Draw() {
+	public static void Draw() {
 		int x = 3 * SIZE_X, y = _posY;
 		DX.DrawExtendGraph(x - (2 * SIZE_X), y - (2 * SIZE_Y), x, y, GetCurrentImage(), DX.TRUE);
 	}
 
-	private int GetCurrentImage() {
+	private static int GetCurrentImage() {
 		if (IsGround())
 			return _playerImages[8 + _imageNum];
 
@@ -75,7 +75,7 @@ internal class Player
 
 	#endregion Draw
 
-	public void Animation() {
+	public static void Animation() {
 		_imageNum++;
 		if (IsGround()) {
 			_imageNum %= 6; // 地上アニメーション
@@ -85,7 +85,7 @@ internal class Player
 		}
 	}
 
-	private bool IsGround() {
+	private static bool IsGround() {
 		// 地面についているかどうか
 		return _posY >= Game.GROUND_POS;
 	}
