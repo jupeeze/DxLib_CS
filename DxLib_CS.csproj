@@ -45,6 +45,7 @@
     <Compile Include="Ground.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Summon.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="DxLib.dll">
