@@ -55,18 +55,6 @@ internal static class Enemy
 		foreach (var summon in _summons)
 			if (summon.IsActive)
 				summon.Draw();
-
-		uint _black = DX.GetColor(0, 0, 0);
-		uint _white = DX.GetColor(255, 255, 255);
-
-		if (_summons.Count > 0) {
-			for (int i = 0; i < _summons.Count; i++) {
-				DX.DrawString(50, 100 + (i * 50),
-						$"{_summons[i].IsActive}", _black, _white);
-				DX.DrawString(100, 100 + (i * 50),
-						$"{_summons[i].IsMoving}", _black, _white);
-			}
-		}
 	}
 
 	public static void Animator() {

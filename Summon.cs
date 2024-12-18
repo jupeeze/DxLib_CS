@@ -53,6 +53,26 @@ internal class Summon
 		int imageIndex = (_state == SummonState.Appearing) ? 0 : 1;
 		DX.DrawExtendGraph(_posX, _posY, _posX - (2 * SIZE_X), _posY + (2 * SIZE_Y), _enemyImages[imageIndex][_currentFrame], DX.TRUE);
 
+		uint Cr = DX.GetColor(0, 0, 255);
+		DX.DrawBox(HitboxPosX1, HitboxPosY1, HitboxPosX2, HitboxPosY2, Cr, DX.FALSE);
+
+		DX.DrawTriangle(
+			Player.HitboxCenterX, Player.HitboxCenterY,
+			HitboxCenterX, HitboxCenterY,
+			Player.HitboxCenterX, HitboxCenterY,
+			Cr, DX.FALSE);
+
+		uint _black = DX.GetColor(0, 0, 0);
+		uint _white = DX.GetColor(255, 255, 255);
+
+		if (IsActive) {
+			DX.DrawString(50, 100, $"{HitboxPosX1}, {HitboxPosY1}", _black, _white);
+			DX.DrawString(50, 150, $"{HitboxPosX2}, {HitboxPosY2}", _black, _white);
+
+			DX.DrawString(50, 250, $"{Player.HitboxPosX1}, {Player.HitboxPosY1}", _black, _white);
+			DX.DrawString(50, 300, $"{Player.HitboxPosX2}, {Player.HitboxPosY2}", _black, _white);
+		}
+
 		if (OnCollision(Player.HitboxPosX1, Player.HitboxPosY1, Player.HitboxPosX2, Player.HitboxPosY2)) {
 			_state = SummonState.Inactive;
 			Player.Die();

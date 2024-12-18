@@ -70,6 +70,9 @@ internal static class Player
 
 	public static void Draw() {
 		DX.DrawExtendGraph(PosX1, PosY1, PosX2, PosY2, GetCurrentImage(), DX.TRUE);
+
+		uint Cr = DX.GetColor(0, 0, 255);
+		DX.DrawBox(HitboxPosX1, HitboxPosY1, HitboxPosX2, HitboxPosY2, Cr, DX.FALSE);
 	}
 
 	private static int GetCurrentImage() {
