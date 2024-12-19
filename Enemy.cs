@@ -21,7 +21,7 @@ internal static class Enemy
 	private static bool _isAttacking = false;
 
 	public static readonly int PosX1 = Game.SCREEN_X - SIZE_X;
-	public static readonly int PosY1 = Game.GROUND_POS - (2 * SIZE_Y);
+	public static readonly int PosY1 = Game.GROUND_POS - (3 * SIZE_Y);
 
 	public static readonly int PosX2 = PosX1 - (2 * SIZE_X);
 	public static readonly int PosY2 = PosY1 + (2 * SIZE_Y);
@@ -30,8 +30,8 @@ internal static class Enemy
 	public static readonly int HitboxPosX2 = ((PosX1 + PosX2) / 2) + 30;
 	public static readonly int HitboxCenterX = (HitboxPosX1 + HitboxPosX2) / 2;
 
-	public static readonly int HitboxPosY1 = ((PosY1 + PosY2) / 2) - 40;
-	public static readonly int HitboxPosY2 = ((PosX1 + PosX2) / 2) - 20;
+	public static readonly int HitboxPosY1 = ((PosY1 + PosY2) / 2) - 10;
+	public static readonly int HitboxPosY2 = ((PosY1 + PosY2) / 2) + 20;
 	public static readonly int HitboxCenterY = (HitboxPosY1 + HitboxPosY2) / 2;
 
 	public static void Load() {
