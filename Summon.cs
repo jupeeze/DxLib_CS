@@ -62,17 +62,6 @@ internal class Summon
 			Player.HitboxCenterX, HitboxCenterY,
 			Cr, DX.FALSE);
 
-		uint _black = DX.GetColor(0, 0, 0);
-		uint _white = DX.GetColor(255, 255, 255);
-
-		if (IsActive) {
-			DX.DrawString(50, 100, $"{HitboxPosX1}, {HitboxPosY1}", _black, _white);
-			DX.DrawString(50, 150, $"{HitboxPosX2}, {HitboxPosY2}", _black, _white);
-
-			DX.DrawString(50, 250, $"{Player.HitboxPosX1}, {Player.HitboxPosY1}", _black, _white);
-			DX.DrawString(50, 300, $"{Player.HitboxPosX2}, {Player.HitboxPosY2}", _black, _white);
-		}
-
 		if (OnCollision(Player.HitboxPosX1, Player.HitboxPosY1, Player.HitboxPosX2, Player.HitboxPosY2)) {
 			_state = SummonState.Inactive;
 			Player.Die();
