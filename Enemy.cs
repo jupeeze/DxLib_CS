@@ -20,6 +20,10 @@ internal static class Enemy
 	// 今攻撃しているか
 	private static bool _isAttacking = false;
 
+	public static bool IsActive = true;
+
+	private static int _hp = 100;
+
 	public static readonly int PosX1 = Game.SCREEN_X - SIZE_X;
 	public static readonly int PosY1 = Game.GROUND_POS - (3 * SIZE_Y);
 
@@ -51,6 +55,8 @@ internal static class Enemy
 	}
 
 	public static void Update() {
+		if (!IsActive) return;
+
 		Attack();
 
 		foreach (var summon in _summons)
@@ -59,6 +65,8 @@ internal static class Enemy
 	}
 
 	public static void Draw() {
+		if (!IsActive) return;
+
 		int imageIndex = _isAttacking ? 1 : 0;
 
 		DX.DrawExtendGraph(PosX1, PosY1, PosX2, PosY2, _enemyImages[imageIndex][_imageNum], DX.TRUE);
@@ -69,6 +77,9 @@ internal static class Enemy
 
 		uint Cr = DX.GetColor(0, 0, 255);
 		DX.DrawBox(HitboxPosX1, HitboxPosY1, HitboxPosX2, HitboxPosY2, Cr, DX.FALSE);
+
+		DX.DrawBox(50, 100, 50 + 400, 110, DX.GetColor(128, 128, 128), DX.TRUE);
+		DX.DrawBox(50, 100, 50 + (Enemy._hp * 4), 110, DX.GetColor(255, 0, 0), DX.TRUE);
 	}
 
 	public static void Animator() {
@@ -122,5 +133,13 @@ internal static class Enemy
 		}
 
 		return true;
+	}
+
+	public static void Damage(int damage) {
+		_hp -= damage;
+		if (_hp <= 0) {
+			_hp = 0;
+			IsActive = false;
+		}
 	}
 }

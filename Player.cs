@@ -87,6 +87,8 @@ internal static class Player
 			if (State != PlayerState.Attacking) {
 				State = PlayerState.Attacking;
 			}
+
+			Enemy.Damage(1);
 		}
 	}
 
