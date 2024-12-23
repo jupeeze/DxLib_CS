@@ -39,13 +39,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Background.cs" />
+    <Compile Include="Code\Background.cs" />
     <Compile Include="DxDLL.cs" />
-    <Compile Include="Enemy.cs" />
-    <Compile Include="Ground.cs" />
-    <Compile Include="Player.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Summon.cs" />
+    <Compile Include="Code\Enemy.cs" />
+    <Compile Include="Code\Ground.cs" />
+    <Compile Include="Code\Player.cs" />
+    <Compile Include="Code\Program.cs" />
+    <Compile Include="Code\Summon.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="DxLib.dll">
