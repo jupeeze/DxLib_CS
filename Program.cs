@@ -19,6 +19,8 @@ internal static class Game
 	// 画面更新の計測用タイマー
 	private static int _timer;
 
+	public static string ASSET_PATH = @"..\..\Assets\";
+
 	public static void Run() {
 		// 初期化処理
 		Init();

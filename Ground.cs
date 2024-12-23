@@ -10,7 +10,7 @@ internal static class Ground
 
 	public static void Load() {
 		// PNG画像のメモリへの読みこみ
-		_groundImage = DX.LoadGraph(@"sprite/ground.png");
+		_groundImage = DX.LoadGraph(Game.ASSET_PATH + @"ground.png");
 	}
 
 	public static void Draw() {

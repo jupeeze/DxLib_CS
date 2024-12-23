@@ -11,12 +11,12 @@ internal static class Background
 	public static void Load() {
 		_imagesSky = new int[2];
 		for (int i = 0; i < _imagesSky.Length; i++) {
-			_imagesSky[i] = DX.LoadGraph($@"sprite/Clouds/sky_{i + 1}.png");
+			_imagesSky[i] = DX.LoadGraph(Game.ASSET_PATH + $@"Clouds\sky_{i + 1}.png");
 		}
 
 		_imagesCloud = new int[4];
 		for (int i = 0; i < _imagesCloud.Length; i++) {
-			_imagesCloud[i] = DX.LoadGraph($@"sprite/Clouds/{i + 1}.png");
+			_imagesCloud[i] = DX.LoadGraph(Game.ASSET_PATH + $@"Clouds\{i + 1}.png");
 		}
 
 		_positionsX = new int[_imagesCloud.Length];

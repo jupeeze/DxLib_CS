@@ -42,8 +42,8 @@ internal static class Enemy
 		_enemyImages = new List<int[]>();
 
 		if (_enemyImages.Count == 0) {
-			LoadSprite("sprite/Undead executioner/idle2.png", 4, 2);
-			LoadSprite("sprite/Undead executioner/summon.png", 4, 2);
+			LoadSprite(Game.ASSET_PATH + @"Undead executioner\idle2.png", 4, 2);
+			LoadSprite(Game.ASSET_PATH + @"Undead executioner\summon.png", 4, 2);
 		}
 	}
 

@@ -52,7 +52,7 @@ internal static class Player
 		int spriteCount = divX * divY;
 		_playerImages = new int[spriteCount];
 
-		DX.LoadDivGraph("sprite/player-Sheet.png", spriteCount, divX, divY, SIZE_X, SIZE_Y, _playerImages);
+		DX.LoadDivGraph(Game.ASSET_PATH + @"adventurer-v1.5-Sheet.png", spriteCount, divX, divY, SIZE_X, SIZE_Y, _playerImages);
 	}
 
 	#region Update

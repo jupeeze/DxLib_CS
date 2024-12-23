@@ -37,8 +37,8 @@ internal class Summon
 		_posY = Game.GROUND_POS - (2 * SIZE_Y);
 
 		if (_enemyImages.Count == 0) {
-			LoadSprite("sprite/Undead executioner/summonAppear.png", 3, 2);
-			LoadSprite("sprite/Undead executioner/summonIdle.png", 4, 1);
+			LoadSprite(Game.ASSET_PATH + @"Undead executioner\summonAppear.png", 3, 2);
+			LoadSprite(Game.ASSET_PATH + @"Undead executioner\summonIdle.png", 4, 1);
 		}
 	}
 
