@@ -71,7 +71,8 @@ internal static class Game
 		// 差分を計算
 		_diff -= 5;
 		if (_diff <= -GROUND_SIZE) {
-			_diff %= -GROUND_SIZE;
+			_diff %= -12 * GROUND_SIZE;
+			Ground.Update();
 
 			Animation();
 		}

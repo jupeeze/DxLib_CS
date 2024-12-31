@@ -48,6 +48,26 @@
     <Compile Include="Code\Summon.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\adventurer-v1.5-Sheet.png" />
+    <Content Include="Assets\Clouds\1.png" />
+    <Content Include="Assets\Clouds\2.png" />
+    <Content Include="Assets\Clouds\3.png" />
+    <Content Include="Assets\Clouds\4.png" />
+    <Content Include="Assets\Clouds\sky_1.png" />
+    <Content Include="Assets\Clouds\sky_2.png" />
+    <Content Include="Assets\oak_woods_tileset.png" />
+    <Content Include="Assets\tilemap1.txt" />
+    <Content Include="Assets\tilemap2.txt" />
+    <Content Include="Assets\tilemap3.txt" />
+    <Content Include="Assets\Undead executioner\attacking.png" />
+    <Content Include="Assets\Undead executioner\death.png" />
+    <Content Include="Assets\Undead executioner\idle.png" />
+    <Content Include="Assets\Undead executioner\idle2.png" />
+    <Content Include="Assets\Undead executioner\skill1.png" />
+    <Content Include="Assets\Undead executioner\summon.png" />
+    <Content Include="Assets\Undead executioner\summonAppear.png" />
+    <Content Include="Assets\Undead executioner\summonDeath.png" />
+    <Content Include="Assets\Undead executioner\summonIdle.png" />
     <Content Include="DxLib.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

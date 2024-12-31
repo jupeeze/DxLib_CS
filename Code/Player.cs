@@ -1,13 +1,15 @@
 ﻿using DxLibDLL;
 using System;
 
+using static DxLibDLL.DX;
+
 internal static class Player
 {
 	private static readonly int SIZE_X = 50, SIZE_Y = 37;
-	private static readonly int JUMP_FORCE = -20;
+	private static readonly int JUMP_FORCE = -15;
 	private static readonly int GRAVITY_INCREMENT = 1;
 
-	private static int _posY2 = Game.GROUND_POS;
+	private static int _imagePosY2 = Game.GROUND_POS;
 
 	private static int _gravity = 0;
 
@@ -15,18 +17,22 @@ internal static class Player
 
 	private static int[] _playerImages;
 
-	public static readonly int PosX1 = SIZE_X;
-	public static readonly int PosX2 = PosX1 + (2 * SIZE_Y);
+	private static int _availableJumps = 2;
 
-	public static readonly int HitboxPosX1 = ((PosX1 + PosX2) / 2) - 10;
-	public static readonly int HitboxPosX2 = ((PosX1 + PosX2) / 2) + 10;
+	private static int _currentTile;
+
+	public static readonly int ImagePosX1 = SIZE_X;
+	public static readonly int ImagePosX2 = ImagePosX1 + (2 * SIZE_Y);
+
+	public static readonly int HitboxPosX1 = ((ImagePosX1 + ImagePosX2) / 2) - 10;
+	public static readonly int HitboxPosX2 = ((ImagePosX1 + ImagePosX2) / 2) + 10;
 	public static readonly int HitboxCenterX = (HitboxPosX1 + HitboxPosX2) / 2;
 
-	public static int PosY1 => PosY2 - (2 * SIZE_Y);
-	public static int PosY2 => _posY2;
+	public static int ImagePosY1 => ImagePosY2 - (2 * SIZE_Y);
+	public static int ImagePosY2 => _imagePosY2;
 
-	public static int HitboxPosY1 => ((PosY1 + PosY2) / 2) - 20;
-	public static int HitboxPosY2 => PosY2;
+	public static int HitboxPosY1 => ((ImagePosY1 + ImagePosY2) / 2) - 20;
+	public static int HitboxPosY2 => ImagePosY2;
 	public static int HitboxCenterY => (HitboxPosY1 + HitboxPosY2) / 2;
 
 	private enum PlayerState
@@ -42,7 +48,9 @@ internal static class Player
 
 			if (_state == PlayerState.Running) {
 				_gravity = 0;
-				_posY2 = Game.GROUND_POS;
+				_imagePosY2 = Game.GROUND_POS - (Ground._heights[_currentTile] * Game.GROUND_SIZE);
+
+				_availableJumps = 2;
 			}
 		}
 	}
@@ -71,15 +79,27 @@ internal static class Player
 			State = PlayerState.Running;
 	}
 
+	private static bool _isJumpKeyPressed = false;
+
 	private static void HandleInput() {
-		if (DX.GetMouseInput() == DX.MOUSE_INPUT_LEFT && State == PlayerState.Running) {
-			State = PlayerState.Jumping;
-			_gravity = JUMP_FORCE;
+		// 左クリックが押された瞬間を検知
+		bool isMouseLeftClicked = DX.GetMouseInput() == DX.MOUSE_INPUT_LEFT;
+
+		if (isMouseLeftClicked && !_isJumpKeyPressed) {
+			// ジャンプ処理
+			if (_availableJumps > 0) {
+				State = PlayerState.Jumping;
+				_gravity = JUMP_FORCE;
+				_availableJumps--;
+			}
 		}
+
+		// 現在のボタン状態を更新
+		_isJumpKeyPressed = isMouseLeftClicked;
 	}
 
 	private static void UpdatePosition() {
-		_posY2 += _gravity;
+		_imagePosY2 += _gravity;
 	}
 
 	private static void Attack() {
@@ -97,10 +117,14 @@ internal static class Player
 	#region Draw
 
 	public static void Draw() {
-		DX.DrawExtendGraph(PosX1, PosY1, PosX2, PosY2, GetCurrentImage(), DX.TRUE);
+		DX.DrawExtendGraph(ImagePosX1, ImagePosY1, ImagePosX2, ImagePosY2, GetCurrentImage(), DX.TRUE);
 
 		uint Cr = DX.GetColor(0, 0, 255);
+
 		DX.DrawBox(HitboxPosX1, HitboxPosY1, HitboxPosX2, HitboxPosY2, Cr, DX.FALSE);
+
+		int x = _currentTile * Game.GROUND_SIZE + Game.Diff, y = Game.GROUND_POS - (Ground._heights[_currentTile] * Game.GROUND_SIZE);
+		DX.DrawBox(x, y, x + Game.GROUND_SIZE, y + Game.GROUND_SIZE, Cr, DX.FALSE);
 	}
 
 	private static int GetCurrentImage() {
@@ -142,9 +166,20 @@ internal static class Player
 		}
 	}
 
-	private static bool IsGround() {
-		// 地面についているかどうか
-		return PosY2 >= Game.GROUND_POS;
+	public static bool IsGround() {
+		// プレイヤーの下端が地面の高さと一致しているか判定
+		_currentTile = (HitboxPosX2 - Game.Diff) / Game.GROUND_SIZE; // プレイヤーが位置する地面タイル
+
+		// 地面の高さを取得
+		int groundHeight = Game.GROUND_POS - (Ground._heights[_currentTile] * Game.GROUND_SIZE);
+
+		if (HitboxPosY1 >= Game.SCREEN_Y) {
+			Die();
+			return false;
+		}
+
+		// プレイヤーの下端と地面の高さを比較
+		return HitboxPosY2 >= groundHeight;
 	}
 
 	public static void Die() {
