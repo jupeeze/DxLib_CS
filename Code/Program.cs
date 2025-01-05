@@ -13,6 +13,8 @@ internal static class Game
 
 	public static readonly int GROUND_POS = SCREEN_Y - GROUND_SIZE;
 
+	public static readonly uint BLUE_COLOR = DX.GetColor(0, 0, 255);
+
 	// 1フレームの時間 (16ms)
 	private static readonly int TIMER_INTERVAL = 16;
 
