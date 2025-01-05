@@ -7,7 +7,7 @@ internal static class Player
 	private static readonly int JUMP_FORCE = -20;
 	private static readonly int GRAVITY_INCREMENT = 1;
 
-	private static int _posY2 = Game.GROUND_POS;
+	private static int _imagePosY2 = Game.GROUND_POS;
 
 	private static int _gravity = 0;
 
@@ -15,18 +15,18 @@ internal static class Player
 
 	private static int[] _playerImages;
 
-	public static readonly int PosX1 = SIZE_X;
-	public static readonly int PosX2 = PosX1 + (2 * SIZE_Y);
+	public static readonly int ImagePosX1 = SIZE_X;
+	public static readonly int ImagePosX2 = ImagePosX1 + (2 * SIZE_Y);
 
-	public static readonly int HitboxPosX1 = ((PosX1 + PosX2) / 2) - 10;
-	public static readonly int HitboxPosX2 = ((PosX1 + PosX2) / 2) + 10;
+	public static readonly int HitboxPosX1 = ((ImagePosX1 + ImagePosX2) / 2) - 10;
+	public static readonly int HitboxPosX2 = ((ImagePosX1 + ImagePosX2) / 2) + 10;
 	public static readonly int HitboxCenterX = (HitboxPosX1 + HitboxPosX2) / 2;
 
-	public static int PosY1 => PosY2 - (2 * SIZE_Y);
-	public static int PosY2 => _posY2;
+	public static int ImagePosY1 => ImagePosY2 - (2 * SIZE_Y);
+	public static int ImagePosY2 => _imagePosY2;
 
-	public static int HitboxPosY1 => ((PosY1 + PosY2) / 2) - 20;
-	public static int HitboxPosY2 => PosY2;
+	public static int HitboxPosY1 => ((ImagePosY1 + ImagePosY2) / 2) - 20;
+	public static int HitboxPosY2 => ImagePosY2;
 	public static int HitboxCenterY => (HitboxPosY1 + HitboxPosY2) / 2;
 
 	private enum PlayerState
@@ -42,7 +42,7 @@ internal static class Player
 
 			if (_state == PlayerState.Running) {
 				_gravity = 0;
-				_posY2 = Game.GROUND_POS;
+				_imagePosY2 = Game.GROUND_POS;
 			}
 		}
 	}
@@ -79,7 +79,7 @@ internal static class Player
 	}
 
 	private static void UpdatePosition() {
-		_posY2 += _gravity;
+		_imagePosY2 += _gravity;
 	}
 
 	private static void Attack() {
@@ -97,7 +97,7 @@ internal static class Player
 	#region Draw
 
 	public static void Draw() {
-		DX.DrawExtendGraph(PosX1, PosY1, PosX2, PosY2, GetCurrentImage(), DX.TRUE);
+		DX.DrawExtendGraph(ImagePosX1, ImagePosY1, ImagePosX2, ImagePosY2, GetCurrentImage(), DX.TRUE);
 
 		uint Cr = DX.GetColor(0, 0, 255);
 		DX.DrawBox(HitboxPosX1, HitboxPosY1, HitboxPosX2, HitboxPosY2, Cr, DX.FALSE);
@@ -144,7 +144,7 @@ internal static class Player
 
 	private static bool IsGround() {
 		// 地面についているかどうか
-		return PosY2 >= Game.GROUND_POS;
+		return ImagePosY2 >= Game.GROUND_POS;
 	}
 
 	public static void Die() {
