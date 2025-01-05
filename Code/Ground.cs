@@ -10,6 +10,10 @@ internal static class Ground
 
 	private static int[] _groundImages;
 
+	private static int _currentTile = (Player.HitboxPosX2 - Game.Diff) / Game.GROUND_SIZE;
+
+	public static int currentHeight => _heights[_currentTile];
+
 	public static List<int> _heights = new List<int>();
 	public static List<int> _groundTiles = new List<int>();
 
@@ -23,30 +27,27 @@ internal static class Ground
 		_groundImages = new int[spriteCount];
 		DX.LoadDivGraph(Game.ASSET_PATH + @"oak_woods_tileset.png", spriteCount, x, y, 24, 24, _groundImages);
 
-		expandedImage = DX.MakeScreen(Game.GROUND_SIZE, Game.GROUND_SIZE); // 拡大描画
-		DX.SetDrawScreen(expandedImage); // 描画先を変更
-		DX.DrawExtendGraph(0, 0, Game.GROUND_SIZE, Game.GROUND_SIZE, _groundImages[1], DX.TRUE); // 画像を拡大描画
-		DX.SetDrawScreen(DX.DX_SCREEN_BACK); // 描画先を元に戻す
+		expandedImage = DX.MakeScreen(Game.GROUND_SIZE, Game.GROUND_SIZE);
+		DX.SetDrawScreen(expandedImage);
+		DX.DrawExtendGraph(0, 0, Game.GROUND_SIZE, Game.GROUND_SIZE, _groundImages[1], DX.TRUE);
+		DX.SetDrawScreen(DX.DX_SCREEN_BACK);
 
 		for (int i = 0; i < 3; i++) {
-			_tilemaps.Add(LoadTilemap(Game.ASSET_PATH + $@"tilemap{i + 1}.txt"));
-			SetTilemap(_tilemaps[i]);
-		}
-
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < Math.Ceiling(TILE_COUNT * 2 / 3f) - 2; j++) {
-				_heights.Add(i);
-			}
-			for (int j = 0; j < 2; j++) {
-				_heights.Add(-10);
-			}
+			var tilemap = LoadTilemap(Game.ASSET_PATH + $@"tilemap{i + 1}.txt");
+			_tilemaps.Add(tilemap);
+			SetTilemap(tilemap);  // この関数内で _heights を設定
 		}
 	}
 
 	public static void Update() {
-		int val = _heights[0];
-		_heights.RemoveAt(0);
-		_heights.Add(val);
+		for (int i = 0; i < 12; i++) {
+			_heights.RemoveAt(0);
+		}
+
+		_groundTiles.RemoveAt(0);
+
+		int randomNum = new Random().Next(0, 3);
+		SetTilemap(_tilemaps[randomNum]);
 	}
 
 	public static void Draw() {
@@ -66,9 +67,12 @@ internal static class Ground
 
 	public static int GetHeight(int x) {
 		int currentTile = (x - Game.Diff) / Game.GROUND_SIZE;
-		int groundHeight = Game.GROUND_POS - (Ground._heights[currentTile] * Game.GROUND_SIZE);
 
-		return groundHeight;
+		if (currentTile < 0 || currentTile >= _heights.Count || _heights[currentTile] < 0) {
+			return Game.SCREEN_Y; // 空気の場合や範囲外の場合
+		}
+
+		return Game.GROUND_POS - (_heights[currentTile] * Game.GROUND_SIZE);
 	}
 
 	private static int[,] LoadTilemap(string filePath) {
@@ -101,11 +105,21 @@ internal static class Ground
 	private static void SetTilemap(int[,] tilemap) {
 		int row = tilemap.GetLength(0), col = tilemap.GetLength(1);
 
-		int groundTile = DX.MakeScreen(col * Game.GROUND_SIZE, row * Game.GROUND_SIZE);
+		int groundTile = DX.MakeScreen(col * Game.GROUND_SIZE, row * Game.GROUND_SIZE, DX.TRUE);
 		DX.SetDrawScreen(groundTile);
 
-		for (int i = 0; i < row; i++) {
-			for (int j = 0; j < col; j++) {
+		for (int j = 0; j < col; j++) {
+			// タイル列の中で最初の地形タイルの行を取得
+			int height = -1;
+			for (int i = 0; i < row; i++) {
+				if (tilemap[i, j] != -1) {
+					height = row - i - 1;  // 画面座標系に合わせる
+					break;
+				}
+			}
+			_heights.Add(height);
+
+			for (int i = 0; i < row; i++) {
 				if (tilemap[i, j] < 0) continue;
 
 				int x = j * Game.GROUND_SIZE, y = i * Game.GROUND_SIZE;
@@ -114,7 +128,6 @@ internal static class Ground
 		}
 
 		DX.SetDrawScreen(DX.DX_SCREEN_BACK);
-
 		_groundTiles.Add(groundTile);
 	}
 }

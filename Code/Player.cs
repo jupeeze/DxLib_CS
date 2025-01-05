@@ -167,18 +167,15 @@ internal static class Player
 	}
 
 	public static bool IsGround() {
-		// プレイヤーの下端が地面の高さと一致しているか判定
-		_currentTile = (HitboxPosX2 - Game.Diff) / Game.GROUND_SIZE; // プレイヤーが位置する地面タイル
+		_currentTile = (HitboxPosX2 - Game.Diff) / Game.GROUND_SIZE;
 
-		// 地面の高さを取得
-		int groundHeight = Game.GROUND_POS - (Ground._heights[_currentTile] * Game.GROUND_SIZE);
+		int groundHeight = Ground.GetHeight(HitboxPosX2);
 
 		if (HitboxPosY1 >= Game.SCREEN_Y) {
 			Die();
 			return false;
 		}
 
-		// プレイヤーの下端と地面の高さを比較
 		return HitboxPosY2 >= groundHeight;
 	}
 

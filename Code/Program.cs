@@ -69,13 +69,19 @@ internal static class Game
 
 	private static void Update() {
 		// 差分を計算
-		_diff -= 5;
-		if (_diff <= -GROUND_SIZE) {
-			_diff %= -12 * GROUND_SIZE;
-			Ground.Update();
+		_diff -= 4;
 
+		if (_diff % (12 * GROUND_SIZE) == 0) {
+			_diff %= (12 * GROUND_SIZE);
+
+			Ground.Update();
+		}
+
+		if (_diff % GROUND_SIZE == 0) {
 			Animation();
 		}
+
+		//_diff %= SCREEN_X;
 
 		Background.Update();
 
