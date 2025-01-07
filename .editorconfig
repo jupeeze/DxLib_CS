@@ -1,0 +1,4 @@
+﻿[*.{cs,vb}]
+
+# IDE0044: 読み取り専用修飾子を追加します
+dotnet_diagnostic.IDE0044.severity = none
