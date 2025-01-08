@@ -56,6 +56,7 @@
     <Content Include="Assets\Clouds\4.png" />
     <Content Include="Assets\Clouds\sky_1.png" />
     <Content Include="Assets\Clouds\sky_2.png" />
+    <Content Include="Assets\sprite-sheet.png" />
     <Content Include="Assets\Undead executioner\attacking.png" />
     <Content Include="Assets\Undead executioner\death.png" />
     <Content Include="Assets\Undead executioner\idle.png" />

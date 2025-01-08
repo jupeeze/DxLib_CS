@@ -55,6 +55,8 @@ internal static class Player
 		_playerImages = new int[spriteCount];
 
 		DX.LoadDivGraph(Game.ASSET_PATH + @"adventurer-v1.5-Sheet.png", spriteCount, divX, divY, SIZE_X, SIZE_Y, _playerImages);
+
+		AttackEffect.Load();
 	}
 
 	#region Update
@@ -98,6 +100,8 @@ internal static class Player
 		if (Enemy.HitboxPosY1 <= HitboxCenterY && HitboxCenterY <= Enemy.HitboxPosY2) {
 			if (State != PlayerState.Attacking) {
 				State = PlayerState.Attacking;
+
+				AttackEffect.Start();
 			}
 
 			Enemy.Damage(1);
@@ -151,6 +155,8 @@ internal static class Player
 
 			default: throw new InvalidOperationException();
 		}
+
+		AttackEffect.Animation();
 	}
 
 	private static bool IsGround() {
@@ -160,5 +166,39 @@ internal static class Player
 
 	public static void Die() {
 		DX.DxLib_End();
+	}
+}
+
+internal static class AttackEffect
+{
+	private static int[] _slashImages;
+	private static int _imageIndex = 0;
+	private static bool _isActive = false;
+	private static string _filePath = @"sprite-sheet.png";
+
+	public static void Load() {
+		_slashImages = Program.LoadSprites(_filePath, 2, 4, 128, 128);
+	}
+
+	public static void Start() {
+		_isActive = true;
+		_imageIndex = 0;
+	}
+
+	public static void Animation() {
+		if (!_isActive) return;
+
+		_imageIndex++;
+		if ((_imageIndex %= _slashImages.Length) == 0) {
+			_isActive = false;
+		}
+	}
+
+	public static void Draw() {
+		if (!_isActive) return;
+
+		int x = Enemy.HitboxCenterX - 64;
+		int y = Enemy.HitboxCenterY - 64;
+		DX.DrawExtendGraph(x, y, x + 128, y + 128, _slashImages[_imageIndex], DX.TRUE);
 	}
 }
