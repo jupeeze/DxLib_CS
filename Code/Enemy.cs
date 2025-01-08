@@ -72,6 +72,8 @@ internal static class Enemy
 
 		DX.DrawBox(50, 100, 50 + 400, 110, DX.GetColor(128, 128, 128), DX.TRUE);
 		DX.DrawBox(50, 100, 50 + (_hp * 4), 110, DX.GetColor(255, 0, 0), DX.TRUE);
+
+		AttackEffect.Draw();
 	}
 
 	public static void Animator() {
