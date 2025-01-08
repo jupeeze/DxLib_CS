@@ -106,7 +106,14 @@ internal static class Game
 
 internal class Program
 {
-	private static void Main(string[] args) {
+	private static void Main() {
 		Game.Run();
+	}
+
+	public static int[] LoadSprites(string filePath, int divX, int divY, int sizeX, int sizeY) {
+		int spriteCount = divX * divY;
+		int[] sprites = new int[spriteCount];
+		DX.LoadDivGraph(Game.ASSET_PATH + filePath, spriteCount, divX, divY, sizeX, sizeY, sprites);
+		return sprites;
 	}
 }

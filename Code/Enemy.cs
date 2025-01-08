@@ -6,23 +6,18 @@ internal static class Enemy
 	private static List<Summon> _summons = new List<Summon>();
 
 	private static readonly int SIZE_X = 100, SIZE_Y = 100;
+	private static readonly int DEFAULT_HP = 100;
 	private static readonly int ATTACK_INTERVAL = 120;
 
-	// 画像の差し替え
 	private static int _imageNum = 0;
-
-	// 攻撃のタイミング
-	private static int _attackTiming = 0;
-
-	// 画像のハンドル
 	private static List<int[]> _enemyImages;
 
-	// 今攻撃しているか
+	private static int _attackTiming = 0;
 	private static bool _isAttacking = false;
 
 	public static bool IsActive = true;
 
-	private static int _hp = 100;
+	private static int _hp = DEFAULT_HP;
 
 	public static readonly int PosX1 = Game.SCREEN_X - SIZE_X;
 	public static readonly int PosY1 = Game.GROUND_POS - (3 * SIZE_Y);
@@ -40,18 +35,15 @@ internal static class Enemy
 
 	public static void Load() {
 		_enemyImages = new List<int[]>();
-
 		if (_enemyImages.Count == 0) {
-			LoadSprite(Game.ASSET_PATH + @"Undead executioner\idle2.png", 4, 2);
-			LoadSprite(Game.ASSET_PATH + @"Undead executioner\summon.png", 4, 2);
-		}
-	}
+			int[] images;
 
-	private static void LoadSprite(string filePath, int divX, int divY) {
-		int spriteCount = divX * divY;
-		int[] sprites = new int[spriteCount];
-		DX.LoadDivGraph(filePath, spriteCount, divX, divY, SIZE_X, SIZE_Y, sprites);
-		_enemyImages.Add(sprites);
+			images = Program.LoadSprites(@"Undead executioner\idle2.png", 4, 2, SIZE_X, SIZE_Y);
+			_enemyImages.Add(images);
+
+			images = Program.LoadSprites(@"Undead executioner\summon.png", 4, 2, SIZE_X, SIZE_Y);
+			_enemyImages.Add(images);
+		}
 	}
 
 	public static void Update() {
@@ -79,7 +71,7 @@ internal static class Enemy
 		DX.DrawBox(HitboxPosX1, HitboxPosY1, HitboxPosX2, HitboxPosY2, Cr, DX.FALSE);
 
 		DX.DrawBox(50, 100, 50 + 400, 110, DX.GetColor(128, 128, 128), DX.TRUE);
-		DX.DrawBox(50, 100, 50 + (Enemy._hp * 4), 110, DX.GetColor(255, 0, 0), DX.TRUE);
+		DX.DrawBox(50, 100, 50 + (_hp * 4), 110, DX.GetColor(255, 0, 0), DX.TRUE);
 	}
 
 	public static void Animator() {
@@ -95,6 +87,12 @@ internal static class Enemy
 
 		if (_isAttacking && _imageNum == 0) {
 			_isAttacking = false;
+
+			if (Summonable()) {
+				var summon = new Summon();
+				summon.Load();
+				_summons.Add(summon);
+			}
 		}
 
 		foreach (var summon in _summons) {
@@ -109,12 +107,6 @@ internal static class Enemy
 		if (_attackTiming % ATTACK_INTERVAL == 0) {
 			_isAttacking = true;
 			Animator();
-
-			if (Summonable()) {
-				var summon = new Summon();
-				summon.Load();
-				_summons.Add(summon);
-			}
 		}
 	}
 
