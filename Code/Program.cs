@@ -24,24 +24,10 @@ internal static class Game
 	public static string ASSET_PATH = @"..\..\Assets\";
 
 	public static void Run() {
-		// 初期化処理
-		Init();
 		// 画像の読み込み
 		Load();
 		// メインループ
 		Loop();
-
-		// Dxlib の終了処理
-		DX.DxLib_End();
-	}
-
-	private static void Init() {
-		// ウィンドウモードで起動するように設定
-		DX.ChangeWindowMode(DX.TRUE);
-		// Dxlib の初期化
-		DX.DxLib_Init();
-		// 描画先を裏画面に設定
-		DX.SetDrawScreen(DX.DX_SCREEN_BACK);
 	}
 
 	private static void Load() {
@@ -63,10 +49,14 @@ internal static class Game
 			// 画像を描画
 			Draw();
 
+			if (!Enemy.IsActive) break;
+
 			// 周期 16ms で待機
 			_timer += TIMER_INTERVAL;
 			DX.WaitTimer(Math.Max(0, _timer - DX.GetNowCount()));
 		}
+
+		Result.Run();
 	}
 
 	private static void Update() {
@@ -104,10 +94,34 @@ internal static class Game
 	}
 }
 
+internal static class Result
+{
+	public static void Run() {
+		DX.ClearDrawScreen();
+		DX.DrawString(Game.SCREEN_X / 2 - 100, Game.SCREEN_Y / 2 - 20, "Game Clear", Game.BLUE_COLOR);
+		DX.ScreenFlip();
+		DX.WaitTimer(1000);
+	}
+}
+
 internal class Program
 {
 	private static void Main() {
+		Init();
+
 		Game.Run();
+
+		// Dxlib の終了処理
+		DX.DxLib_End();
+	}
+
+	private static void Init() {
+		// ウィンドウモードで起動するように設定
+		DX.ChangeWindowMode(DX.TRUE);
+		// Dxlib の初期化
+		DX.DxLib_Init();
+		// 描画先を裏画面に設定
+		DX.SetDrawScreen(DX.DX_SCREEN_BACK);
 	}
 
 	public static int[] LoadSprites(string filePath, int divX, int divY, int sizeX, int sizeY) {
